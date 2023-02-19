@@ -13,3 +13,12 @@ const isStringPalindrome = (string) => {
   }
   return true;
 };
+
+const getNumbers = (string) => {
+  string += '';
+  let numbers = '';
+  for(let i = 0; i < string.length; i++){
+    numbers += parseInt(string[i],10);
+  }
+  return parseInt(numbers.replaceAll('NaN',''), 10);
+};
