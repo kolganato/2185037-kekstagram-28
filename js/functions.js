@@ -22,3 +22,12 @@ const getNumbers = (string) => {
   }
   return parseInt(numbers.replaceAll('NaN',''), 10);
 };
+
+const addSymbols = (string,minLength,symbols) => {
+  while(string.length < minLength){
+    const neededSymbols = symbols.slice(0,minLength - string.length);
+    string = neededSymbols + string;
+  }
+  return string;
+};
+
