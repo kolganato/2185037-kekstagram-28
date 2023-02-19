@@ -31,3 +31,25 @@ const addSymbols = (string,minLength,symbols) => {
   return string;
 };
 
+checkStringLength('проверяемая строка', 20);
+checkStringLength('проверяемая строка', 18);
+checkStringLength('проверяемая строка', 10);
+
+isStringPalindrome('топот');
+isStringPalindrome('ДовОд');
+isStringPalindrome('Кекс');
+isStringPalindrome('Лёша на полке клопа нашёл ');
+
+getNumbers('2023 год');
+getNumbers('ECMAScript 2022');
+getNumbers('1 кефир, 0.5 батона');
+getNumbers('а я томат');
+getNumbers(2023);
+getNumbers(-1);
+getNumbers(1.5);
+
+addSymbols('1', 2, '0');
+addSymbols('1', 4, '0');
+addSymbols('q', 4, 'werty');
+addSymbols('q', 4, 'we');
+addSymbols('qwerty', 4, '0');
