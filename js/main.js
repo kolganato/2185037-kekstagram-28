@@ -54,8 +54,8 @@ comments, массив объектов — список комментарие�
   ]
 }
 
-Сделать список имен
-Сделать список описаний фото
+Генератор комментов для картинки
+Генератор объекта картинки
 
 */
 
@@ -104,6 +104,9 @@ const COMMENTS = `Всё отлично!
 Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.
 Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!`;
 
+const COUNT_IMG = 25;
+const COUNT_AVATAR = 6;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -112,4 +115,32 @@ const getRandomInteger = (a, b) => {
 };
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
+function createRandomIdFromRangeGenerator (min, max) {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = getRandomInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+}
+
+function createCommentsIdGenerator() {
+  let lastGeneratedId = 0;
+
+  return function () {
+    lastGeneratedId += 1;
+    return lastGeneratedId;
+  };
+}
+
+const generatePhotoId = createRandomIdFromRangeGenerator(1,25);
+const generateCommentsId = createCommentsIdGenerator();
 
