@@ -111,8 +111,7 @@ const createPhotoPost = () => ({
   comments: getArrayCommentsPhoto(),
 });
 
-const photoPosts = Array.from({length: COUNT_PHOTO_POST}, createPhotoPost);
+const photoPosts = () => Array.from({length: COUNT_PHOTO_POST}, createPhotoPost);
 
-
-
+photoPosts();
 
