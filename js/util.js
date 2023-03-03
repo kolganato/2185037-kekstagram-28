@@ -33,4 +33,4 @@ function createCommentsIdGenerator() {
   };
 }
 
-export {getRandomInteger,getRandomArrayElement,createRandomIdFromRangeGenerator,createCommentsIdGenerator};
+export { getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerator, createCommentsIdGenerator };

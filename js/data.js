@@ -1,4 +1,4 @@
-import {getRandomInteger,getRandomArrayElement,createRandomIdFromRangeGenerator,createCommentsIdGenerator} from './util.js';
+import { getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerator, createCommentsIdGenerator } from './util.js';
 
 const NAMES = [
   'Иван',
@@ -47,13 +47,18 @@ const COMMENTS = `Всё отлично!
 
 const COUNT_PHOTO_POST = 25;
 const COUNT_AVATAR = 6;
+const MIN_COUNT_COMMENTS = 1;
+const MAX_COUNT_COMMENTS = 3;
+const MIN_COUNT_LIKES = 15;
+const MAX_COUNT_LIKES = 200;
 
-const generatePhotoId = createRandomIdFromRangeGenerator(1,COUNT_PHOTO_POST);
+
+const generatePhotoId = createRandomIdFromRangeGenerator(1, COUNT_PHOTO_POST);
 const generateCommentsId = createCommentsIdGenerator();
 
 const createCommentPhoto = () => ({
   id: generateCommentsId(),
-  avatar: `img/avatar-${getRandomInteger(1,COUNT_AVATAR)}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1, COUNT_AVATAR)}.svg`,
   message: getRandomArrayElement(COMMENTS.split('\n')),
   name: `${getRandomArrayElement(NAMES)} ${ getRandomArrayElement(SURNAMES)}`,
 });
@@ -61,7 +66,7 @@ const createCommentPhoto = () => ({
 const getArrayCommentsPhoto = () => {
   const comments = [];
   let i = 1;
-  const countComments = getRandomInteger(1,3);
+  const countComments = getRandomInteger(MIN_COUNT_COMMENTS,MAX_COUNT_COMMENTS);
   while(i <= countComments){
     comments.push(createCommentPhoto());
     i++;
@@ -73,10 +78,10 @@ const createPhotoPost = () => ({
   id: generatePhotoId(),
   url: `photos/${window.lastPostid}.jpg`,
   description: `${getRandomArrayElement(DESCRIPTION_FIRST_WORD)} ${ getRandomArrayElement(DESCRIPTION_SECOND_WORD)}`,
-  likes: getRandomInteger(15,200),
+  likes: getRandomInteger(MIN_COUNT_LIKES ,MAX_COUNT_LIKES),
   comments: getArrayCommentsPhoto(),
 });
 
-const photoPosts = () => Array.from({length: COUNT_PHOTO_POST}, createPhotoPost);
+const getPhotos = () => Array.from({length: COUNT_PHOTO_POST}, createPhotoPost);
 
-export {photoPosts};
+export {getPhotos};
