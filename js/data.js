@@ -47,7 +47,6 @@ const COMMENTS = `Всё отлично!
 
 const COUNT_PHOTO_POST = 25;
 const COUNT_AVATAR = 6;
-const lastPostIds = {};
 
 const generatePhotoId = createRandomIdFromRangeGenerator(1,COUNT_PHOTO_POST);
 const generateCommentsId = createCommentsIdGenerator();
@@ -72,7 +71,7 @@ const getArrayCommentsPhoto = () => {
 
 const createPhotoPost = () => ({
   id: generatePhotoId(),
-  url: `photos/${lastPostIds.id}.jpg`,
+  url: `photos/${window.lastPostid}.jpg`,
   description: `${getRandomArrayElement(DESCRIPTION_FIRST_WORD)} ${ getRandomArrayElement(DESCRIPTION_SECOND_WORD)}`,
   likes: getRandomInteger(15,200),
   comments: getArrayCommentsPhoto(),

@@ -19,7 +19,7 @@ function createRandomIdFromRangeGenerator (min, max) {
       currentValue = getRandomInteger(min, max);
     }
     previousValues.push(currentValue);
-    lastPostIds.id = currentValue;
+    window.lastPostid = currentValue;
     return currentValue;
   };
 }

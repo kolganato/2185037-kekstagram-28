@@ -1,4 +1,4 @@
 import { photoPosts } from './data.js';
 
-photoPosts();
+console.log(photoPosts());
 
