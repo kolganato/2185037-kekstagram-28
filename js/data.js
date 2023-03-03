@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerator, createCommentsIdGenerator } from './util.js';
+import { getRandomInteger, getRandomArrayElement, createCommentsIdGenerator } from './util.js';
 
 const NAMES = [
   'Иван',
@@ -52,8 +52,6 @@ const MAX_COUNT_COMMENTS = 3;
 const MIN_COUNT_LIKES = 15;
 const MAX_COUNT_LIKES = 200;
 
-
-const generatePhotoId = createRandomIdFromRangeGenerator(1, COUNT_PHOTO_POST);
 const generateCommentsId = createCommentsIdGenerator();
 
 const createCommentPhoto = () => ({
@@ -74,14 +72,14 @@ const getArrayCommentsPhoto = () => {
   return comments;
 };
 
-const createPhotoPost = () => ({
-  id: generatePhotoId(),
-  url: `photos/${window.lastPostid}.jpg`,
-  description: `${getRandomArrayElement(DESCRIPTION_FIRST_WORD)} ${ getRandomArrayElement(DESCRIPTION_SECOND_WORD)}`,
+const createPhotoPost = (id) => ({
+  id: id,
+  url: `photos/${id}.jpg`,
+  description: `${getRandomArrayElement(DESCRIPTION_FIRST_WORD)} ${getRandomArrayElement(DESCRIPTION_SECOND_WORD)}`,
   likes: getRandomInteger(MIN_COUNT_LIKES ,MAX_COUNT_LIKES),
   comments: getArrayCommentsPhoto(),
 });
 
-const getPhotos = () => Array.from({length: COUNT_PHOTO_POST}, createPhotoPost);
+const getPhotos = () => Array.from({length: COUNT_PHOTO_POST}, (_, index) => createPhotoPost(index + 1));
 
 export {getPhotos};
