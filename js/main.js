@@ -1,4 +1,5 @@
-import { photoPosts } from './data.js';
+import { getPhotos } from './data.js';
+import './thumbnails-rendering.js';
 
-photoPosts();
+getPhotos();
 
