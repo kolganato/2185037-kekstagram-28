@@ -7,23 +7,6 @@ const getRandomInteger = (a, b) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-function createRandomIdFromRangeGenerator (min, max) {
-  const previousValues = [];
-
-  return function () {
-    let currentValue = getRandomInteger(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      return null;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    window.lastPostid = currentValue;
-    return currentValue;
-  };
-}
-
 function createCommentsIdGenerator() {
   let lastGeneratedId = 0;
 
@@ -33,4 +16,4 @@ function createCommentsIdGenerator() {
   };
 }
 
-export {getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerator, createCommentsIdGenerator};
+export { getRandomInteger, getRandomArrayElement, createCommentsIdGenerator };
