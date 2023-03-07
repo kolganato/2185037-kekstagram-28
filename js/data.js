@@ -1,4 +1,4 @@
-import {getRandomInteger,getRandomArrayElement,createRandomIdFromRangeGenerator,createCommentsIdGenerator} from './util.js';
+import {getRandomInteger, getRandomArrayElement, createRandomIdFromRangeGenerator, createCommentsIdGenerator} from './util.js';
 
 const NAMES = [
   'Иван',
@@ -77,6 +77,6 @@ const createPhotoPost = () => ({
   comments: getArrayCommentsPhoto(),
 });
 
-const photoPosts = () => Array.from({length: COUNT_PHOTO_POST}, createPhotoPost);
+const getPhotos = () => Array.from({length: COUNT_PHOTO_POST}, createPhotoPost);
 
-export {photoPosts};
+export {getPhotos};
