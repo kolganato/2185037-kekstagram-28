@@ -1,4 +1,5 @@
 import {isEscapeKey} from './util.js';
+import {photosData} from './main.js';
 
 const bigPictureSection = document.querySelector('.big-picture');
 const bigPictureImg = bigPictureSection.querySelector('.big-picture__img img');
@@ -52,11 +53,13 @@ const onPictureClick = (evt) => {
   }
 };
 
-const renderFullPhoto = () => {
-  pictures.addEventListener('click',onPictureClick);
-  bigPictureClose.addEventListener('click',closeBigPictureModal);
-};
+// const renderFullPhoto = () => {
+pictures.addEventListener('click',onPictureClick);
+bigPictureClose.addEventListener('click',closeBigPictureModal);
+// };
 
-export {renderFullPhoto};
+// export {renderFullPhoto};
+
+console.log(photosData); // тут не может получить доступ, потому что переменная ещё не инициализирована
 
 
