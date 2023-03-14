@@ -8,13 +8,41 @@ const bigPictureCaption = bigPictureSection.querySelector('.social__caption');
 const bigPictureComments = bigPictureSocial.querySelector('.social__comments');
 const bigPictureCommentsCount = bigPictureSocial.querySelector('.social__comment-count');
 const bigPictureClose = bigPictureSection.querySelector('.big-picture__cancel');
+const bigPictureCommentsLoader = bigPictureSection.querySelector('.comments-loader');
 const pictures = document.querySelector('.pictures');
 
 const getCountLikes = (img) => img.parentNode.querySelector('.picture__likes').textContent;
 const getCountComments = (img) => img.parentNode.querySelector('.picture__comments').textContent;
+const getCommentsPhoto = (elem) => elem.comments;
 
-const renderComments = (comments) => {
+const createCommentElement = (commentData) => {
+  const elem = document.createElement('li');
+  const img = document.createElement('img');
+  const text = document.createElement('p');
+  elem.classList.add('social__comment');
+  img.classList.add('social__picture');
+  img.src = commentData.avatar;
+  img.dataset.id = commentData.id;
+  img.alt = commentData.name;
+  img.width = 35;
+  img.height = 35;
+  text.classList.add('social__text');
+  text.innerText = commentData.message;
+  elem.prepend(img);
+  elem.append(text);
+  return elem;
+};
 
+const clearComments = () => {
+  bigPictureComments.innerHTML = '';
+};
+
+const renderComments = (img) => {
+  const commentsArray = getCommentsPhoto(photosData.find((elem) => elem.id === Number(img.dataset.id)));
+  const commentsFragment = document.createDocumentFragment();
+  clearComments();
+  commentsArray.forEach((elem)=> commentsFragment.appendChild(createCommentElement(elem)));
+  bigPictureComments.appendChild(commentsFragment);
 };
 
 const onDocumentKeydown = (evt) => {
@@ -31,7 +59,8 @@ const renderBigPicture = (img) => {
   bigPictureSocial.querySelector('.likes-count').textContent = getCountLikes(img);
   bigPictureSocial.querySelector('.comments-count').textContent = getCountComments(img);
   bigPictureCommentsCount.classList.add('hidden');
-  renderComments();
+  bigPictureCommentsLoader.classList.add('hidden');
+  renderComments(img);
 };
 
 function openBigPictureModal(evt){
@@ -53,13 +82,5 @@ const onPictureClick = (evt) => {
   }
 };
 
-// const renderFullPhoto = () => {
 pictures.addEventListener('click',onPictureClick);
 bigPictureClose.addEventListener('click',closeBigPictureModal);
-// };
-
-// export {renderFullPhoto};
-
-console.log(photosData); // тут не может получить доступ, потому что переменная ещё не инициализирована
-
-
