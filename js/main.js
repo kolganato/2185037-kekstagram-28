@@ -1,9 +1,10 @@
 import { getPhotos } from './data.js';
 import { renderThumbnails } from './thumbnails-rendering.js';
-import './full-photo.js';
+import { addEventOpeningFullPhoto } from './full-photo.js';
 
 const photosData = getPhotos();
 renderThumbnails(photosData);
+addEventOpeningFullPhoto();
 
 export {photosData};
 

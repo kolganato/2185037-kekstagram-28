@@ -1,4 +1,4 @@
-import {isEscapeKey} from './util.js';
+import {isEscapeKey, isEnterKey} from './util.js';
 import {photosData} from './main.js';
 
 const bigPictureSection = document.querySelector('.big-picture');
@@ -82,5 +82,13 @@ const onPictureClick = (evt) => {
   }
 };
 
-pictures.addEventListener('click',onPictureClick);
-bigPictureClose.addEventListener('click',closeBigPictureModal);
+export const addEventOpeningFullPhoto = () => {
+  pictures.addEventListener('click',onPictureClick);
+  bigPictureClose.addEventListener('click', closeBigPictureModal);
+  bigPictureClose.addEventListener('keydown', (evt) => {
+    if (isEnterKey(evt)) {
+      closeBigPictureModal();
+    }
+  });
+};
+
