@@ -16,4 +16,6 @@ function createCommentsIdGenerator() {
   };
 }
 
-export { getRandomInteger, getRandomArrayElement, createCommentsIdGenerator };
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export { getRandomInteger, getRandomArrayElement, createCommentsIdGenerator, isEscapeKey };
