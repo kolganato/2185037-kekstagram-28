@@ -1,5 +1,5 @@
 import {isEscapeKey, isEnterKey} from './util.js';
-import {renderComments, getCommentsPhoto} from './comments.js';
+import {renderComments} from './comments.js';
 
 const bigPictureSection = document.querySelector('.big-picture');
 const bigPictureImg = bigPictureSection.querySelector('.big-picture__img img');
@@ -21,8 +21,7 @@ const renderBigPicture = (img, photosData) => {
   bigPictureImg.src = img.src;
   bigPictureCaption.textContent = bigPictureImg.alt = img.alt;
   bigPictureSocial.querySelector('.likes-count').textContent = getCountLikes(img);
-  const comments = getCommentsPhoto(photosData.find((elem) => elem.id === Number(img.dataset.id)));
-  renderComments(comments, bigPictureSocial);
+  renderComments(img, photosData, bigPictureSocial);
 };
 
 function openBigPictureModal(evt, photosData){

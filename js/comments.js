@@ -1,7 +1,9 @@
 const COUNT_COMMENTS_UPLOADED = 5;
-const getCommentsPhoto = (elem) => elem.comments;
-const getCountComments = (img) => img.parentNode.querySelector('.picture__comments').textContent;
+
 let commentsShown = 0;
+let comments = [];
+
+const getCommentsPhoto = (elem) => elem.comments;
 
 const createCommentElement = (commentData) => {
   const elem = document.createElement('li');
@@ -42,7 +44,6 @@ const uploadedComments = (social, comments, commentsList, commentsLoader) => {
       commentsLoader.classList.add('hidden');
       break;
     }
-    console.log(commentsShown, comments[commentsShown]);
     commentsFragment.appendChild(createCommentElement(comments[commentsShown]));
     commentsShown++;
   }
@@ -50,13 +51,11 @@ const uploadedComments = (social, comments, commentsList, commentsLoader) => {
   commentsList.appendChild(commentsFragment);
 };
 
-const renderComments = (comments, social) => {
-  // const comments = getCommentsPhoto(photosData.find((elem) => elem.id === Number(img.dataset.id)));
+const renderComments = (img, photosData, social) => {
+  comments = getCommentsPhoto(photosData.find((elem) => elem.id === Number(img.dataset.id)));
+  commentsShown = 0;
   const commentsList = social.querySelector('.social__comments');
   const commentsLoader = social.querySelector('.comments-loader');
-  commentsShown = 0;
-
-  console.log(comments);
 
   clearComments(commentsList);
   uploadedComments(social, comments, commentsList, commentsLoader);
@@ -67,5 +66,5 @@ const renderComments = (comments, social) => {
 
 };
 
-export {renderComments, getCommentsPhoto};
+export {renderComments};
 
