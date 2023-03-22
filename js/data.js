@@ -47,8 +47,8 @@ const COMMENTS = `Всё отлично!
 
 const COUNT_PHOTO_POST = 25;
 const COUNT_AVATAR = 6;
-const MIN_COUNT_COMMENTS = 1;
-const MAX_COUNT_COMMENTS = 10;
+const MIN_COUNT_COMMENTS = 3;
+const MAX_COUNT_COMMENTS = 20;
 const MIN_COUNT_LIKES = 15;
 const MAX_COUNT_LIKES = 200;
 
