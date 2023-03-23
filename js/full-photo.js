@@ -21,7 +21,7 @@ const renderBigPicture = (img, photosData) => {
   bigPictureImg.src = img.src;
   bigPictureCaption.textContent = bigPictureImg.alt = img.alt;
   bigPictureSocial.querySelector('.likes-count').textContent = getCountLikes(img);
-  renderComments(img, photosData, bigPictureSocial);
+  renderComments(img, photosData);
 };
 
 function openBigPictureModal(evt, photosData){

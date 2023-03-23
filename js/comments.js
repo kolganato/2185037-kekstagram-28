@@ -2,6 +2,9 @@ const COUNT_COMMENTS_UPLOADED = 5;
 
 let commentsShown = 0;
 let comments = [];
+const social = document.querySelector('.big-picture__social');
+const commentsList = social.querySelector('.social__comments');
+const commentsLoader = social.querySelector('.comments-loader');
 
 const getCommentsPhoto = (elem) => elem.comments;
 
@@ -23,46 +26,33 @@ const createCommentElement = (commentData) => {
   return elem;
 };
 
-const clearComments = (social) => {
-  social.innerHTML = '';
-};
-
-const uploadedComments = (social, comments, commentsList, commentsLoader) => {
-  if( commentsShown >= comments.length ){
-    commentsLoader.classList.add('hidden');
-    return;
-  }else{
-    commentsLoader.classList.remove('hidden');
-  }
-  
+const uploadedComments = () => {
   const commentsFragment = document.createDocumentFragment();
   for(let i = 0; i < comments.length; i++){
-    if( i === COUNT_COMMENTS_UPLOADED ){
+    if(i === COUNT_COMMENTS_UPLOADED){
       break;
-    }
-    if( commentsShown >= comments.length ){
+    }else if(commentsShown >= comments.length){
       commentsLoader.classList.add('hidden');
+      commentsLoader.removeEventListener('click',uploadedComments);
       break;
+    }else{
+      commentsLoader.classList.remove('hidden');
     }
     commentsFragment.appendChild(createCommentElement(comments[commentsShown]));
     commentsShown++;
   }
-  
   commentsList.appendChild(commentsFragment);
+  social.querySelector('.social__comment-count').innerHTML = `${commentsShown} из <span class='comments-count'>${comments.length}</span> из комментариев`;
 };
 
-const renderComments = (img, photosData, social) => {
+const renderComments = (img, photosData) => {
   comments = getCommentsPhoto(photosData.find((elem) => elem.id === Number(img.dataset.id)));
   commentsShown = 0;
-  const commentsList = social.querySelector('.social__comments');
-  const commentsLoader = social.querySelector('.comments-loader');
+  commentsList.innerHTML = '';
 
-  clearComments(commentsList);
-  uploadedComments(social, comments, commentsList, commentsLoader);
+  uploadedComments();
 
-  commentsLoader.addEventListener('click',()=>{
-    uploadedComments(social, comments, commentsList, commentsLoader);
-  });
+  commentsLoader.addEventListener('click',uploadedComments);
 
 };
 
