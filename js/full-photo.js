@@ -7,8 +7,6 @@ const bigPictureSocial = bigPictureSection.querySelector('.big-picture__social')
 const bigPictureCaption = bigPictureSection.querySelector('.social__caption');
 const bigPictureClose = bigPictureSection.querySelector('.big-picture__cancel');
 
-const getCountLikes = (img) => img.parentNode.querySelector('.picture__likes').textContent;
-
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -16,17 +14,17 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const renderBigPicture = (img, photosData) => {
+const renderBigPicture = (picture) => {
   document.body.classList.add('modal-open');
-  bigPictureImg.src = img.src;
-  bigPictureCaption.textContent = bigPictureImg.alt = img.alt;
-  bigPictureSocial.querySelector('.likes-count').textContent = getCountLikes(img);
-  renderComments(img, photosData);
+  bigPictureImg.src = picture.url;
+  bigPictureCaption.textContent = bigPictureImg.alt = picture.description;
+  bigPictureSocial.querySelector('.likes-count').textContent = picture.likes;
+  renderComments(picture);
 };
 
-function openBigPictureModal(evt, photosData){
+function openBigPictureModal(picture){
   bigPictureSection.classList.remove('hidden');
-  renderBigPicture(evt, photosData);
+  renderBigPicture(picture);
   bigPictureClose.addEventListener('click', closeBigPictureModal);
   document.addEventListener('keydown',onDocumentKeydown);
 }
