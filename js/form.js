@@ -39,11 +39,13 @@ const validateTags = (value) => {
   return hasValidCount(tags) && hasUniqueTags(tags) && isValidTag(tags);
 };
 
-pristine.addValidator(
-  hashtags,
-  validateTags,
-  TAG_TEXT_ERROR
-);
+const addValidatorPristine = () => {
+  pristine.addValidator(
+    hashtags,
+    validateTags,
+    TAG_TEXT_ERROR
+  );
+};
 
 const showModal = () => {
   overlay.classList.remove('hidden');
@@ -81,6 +83,12 @@ const sendForm = (evt) => {
   pristine.validate();
 };
 
-inputUpload.addEventListener('change', onInputUploadChange);
-document.addEventListener('keydown', onDocumentKeydown);
-form.addEventListener('submit', sendForm);
+const renderForm = () => {
+  inputUpload.addEventListener('change', onInputUploadChange);
+  document.addEventListener('keydown', onDocumentKeydown);
+  form.addEventListener('submit', sendForm);
+  addValidatorPristine();
+};
+
+export {renderForm};
+
