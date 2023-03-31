@@ -1,5 +1,5 @@
-import {isEscapeKey, isEnterKey} from './util.js';
-import {renderComments} from './comments.js';
+import {isEscapeKey} from './util.js';
+import {renderComments, removeEventsComments} from './comments.js';
 
 const bigPictureSection = document.querySelector('.big-picture');
 const bigPictureImg = bigPictureSection.querySelector('.big-picture__img img');
@@ -33,11 +33,7 @@ function closeBigPictureModal(){
   document.body.classList.remove('modal-open');
   bigPictureSection.classList.add('hidden');
   document.removeEventListener('keydown',onDocumentKeydown);
-  bigPictureClose.addEventListener('keydown', (evt) => {
-    if (isEnterKey(evt)) {
-      closeBigPictureModal();
-    }
-  });
+  removeEventsComments();
 }
 
 export {openBigPictureModal};

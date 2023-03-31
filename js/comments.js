@@ -35,18 +35,21 @@ const showComments = () => {
     }, counter);
   commentsList.appendChild(commentsFragment);
   social.querySelector('.social__comment-count').innerHTML = `${counter} из <span class='comments-count'>${comments.length}</span> комментариев`;
+  if(counter >= comments.length){
+    commentsLoader.classList.add('hidden');
+  }else{
+    commentsLoader.classList.remove('hidden');
+  }
 };
 
 const loadComments = (evt) => {
   evt.preventDefault();
   commentsShown += COMMENTS_PER_PAGE;
   showComments();
-  if(counter >= comments.length){
-    commentsLoader.classList.add('hidden');
-    commentsLoader.removeEventListener('click',loadComments);
-  }else{
-    commentsLoader.classList.remove('hidden');
-  }
+};
+
+const removeEventsComments = () => {
+  commentsLoader.removeEventListener('click',loadComments);
 };
 
 const renderComments = (picture) => {
@@ -59,5 +62,5 @@ const renderComments = (picture) => {
 
 };
 
-export {renderComments};
+export {renderComments, removeEventsComments};
 

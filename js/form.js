@@ -33,8 +33,7 @@ const hasUniqueTags = (tags) => {
 const validateTags = (value) => {
   const tags = value
     .trim()
-    .split(' ')
-    .filter((tag) => tag.trim().length);
+    .split(/\s+/);
 
   return hasValidCount(tags) && hasUniqueTags(tags) && isValidTag(tags);
 };
