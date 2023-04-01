@@ -1,12 +1,11 @@
-const COUNT_COMMENTS_UPLOADED = 5;
+const COMMENTS_PER_PAGE = 5;
 
-let commentsShown = 0;
+let commentsShown;
 let comments = [];
+let counter;
 const social = document.querySelector('.big-picture__social');
 const commentsList = social.querySelector('.social__comments');
 const commentsLoader = social.querySelector('.comments-loader');
-
-const getCommentsPhoto = (elem) => elem.comments;
 
 const createCommentElement = (commentData) => {
   const elem = document.createElement('li');
@@ -26,35 +25,42 @@ const createCommentElement = (commentData) => {
   return elem;
 };
 
-const uploadedComments = () => {
+const showComments = () => {
   const commentsFragment = document.createDocumentFragment();
-  for(let i = 0; i < comments.length; i++){
-    if(i === COUNT_COMMENTS_UPLOADED){
-      break;
-    }else if(commentsShown >= comments.length){
-      commentsLoader.classList.add('hidden');
-      commentsLoader.removeEventListener('click',uploadedComments);
-      break;
-    }else{
-      commentsLoader.classList.remove('hidden');
-    }
-    commentsFragment.appendChild(createCommentElement(comments[commentsShown]));
-    commentsShown++;
-  }
+  comments
+    .slice(commentsShown, commentsShown + COMMENTS_PER_PAGE)
+    .reduce((item, comment) => {
+      commentsFragment.appendChild(createCommentElement(comment));
+      counter++;
+    }, counter);
   commentsList.appendChild(commentsFragment);
-  social.querySelector('.social__comment-count').innerHTML = `${commentsShown} из <span class='comments-count'>${comments.length}</span> из комментариев`;
+  social.querySelector('.social__comment-count').innerHTML = `${counter} из <span class='comments-count'>${comments.length}</span> комментариев`;
+  if(counter >= comments.length){
+    commentsLoader.classList.add('hidden');
+  }else{
+    commentsLoader.classList.remove('hidden');
+  }
 };
 
-const renderComments = (img, photosData) => {
-  comments = getCommentsPhoto(photosData.find((elem) => elem.id === Number(img.dataset.id)));
-  commentsShown = 0;
+const loadComments = (evt) => {
+  evt.preventDefault();
+  commentsShown += COMMENTS_PER_PAGE;
+  showComments();
+};
+
+const removeEventsComments = () => {
+  commentsLoader.removeEventListener('click',loadComments);
+};
+
+const renderComments = (picture) => {
+  comments = picture.comments;
+  commentsShown = counter = 0;
   commentsList.innerHTML = '';
+  showComments();
 
-  uploadedComments();
-
-  commentsLoader.addEventListener('click',uploadedComments);
+  commentsLoader.addEventListener('click',loadComments);
 
 };
 
-export {renderComments};
+export {renderComments, removeEventsComments};
 
