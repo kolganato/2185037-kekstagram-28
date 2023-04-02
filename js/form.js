@@ -1,4 +1,6 @@
 import {isEscapeKey} from './util.js';
+import {addEventsScale, removeEventsScale} from './scale.js';
+import {addEventsEffects, removeEventsEffects} from './effect.js';
 
 const TAG_TEXT_ERROR = 'Неправильно заполнены хэштеги';
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -50,6 +52,8 @@ const showModal = () => {
   overlay.classList.remove('hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown',isEscapeKey);
+  addEventsScale();
+  addEventsEffects();
 };
 
 const hideModal = () => {
@@ -60,6 +64,8 @@ const hideModal = () => {
   body.classList.remove('modal-open');
   document.removeEventListener('keydown',isEscapeKey);
   closeBtn.removeEventListener('click', hideModal);
+  removeEventsScale();
+  removeEventsEffects();
 };
 
 const onDocumentKeydown = (evt) => {
