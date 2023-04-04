@@ -6,6 +6,11 @@ const TAG_TEXT_ERROR = 'Неправильно заполнены хэштеги
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_COUNT_HASHTAGS = 5;
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
+
 const section = document.querySelector('.img-upload'),
   form = section.querySelector('form.img-upload__form'),
   inputUpload = form.querySelector('#upload-file'),
@@ -13,6 +18,7 @@ const section = document.querySelector('.img-upload'),
   closeBtn = section.querySelector('#upload-cancel'),
   comment = form.querySelector('.text__description'),
   hashtags = form.querySelector('.text__hashtags'),
+  submitButton = form.querySelector('#upload-submit'),
   body = document.body;
 
 const isTextFieldFocused = () => document.activeElement === hashtags || document.activeElement === comment;
@@ -23,7 +29,10 @@ const pristine = new Pristine(form,{
   errorTextClass: 'img-upload__field-wrapper__error'
 });
 
-const isValidTag = (tags) => tags.every((tag) => VALID_SYMBOLS.test(tag));
+const isValidTag = (tags) => {
+  console.log(tags.every((tag) => VALID_SYMBOLS.test(tag)));
+  return tags.every((tag) => VALID_SYMBOLS.test(tag));
+};
 
 const hasValidCount = (tags) => tags.length <= MAX_COUNT_HASHTAGS;
 
@@ -36,7 +45,7 @@ const validateTags = (value) => {
   const tags = value
     .trim()
     .split(/\s+/);
-
+  // console.log(hasValidCount(tags) && hasUniqueTags(tags) && isValidTag(tags));
   return hasValidCount(tags) && hasUniqueTags(tags) && isValidTag(tags);
 };
 
@@ -81,19 +90,34 @@ const onInputUploadChange = () => {
   closeBtn.addEventListener('click', hideModal);
 };
 
-
-const sendForm = (evt) => {
-  evt.preventDefault();
-
-  pristine.validate();
-};
-
 const renderForm = () => {
   inputUpload.addEventListener('change', onInputUploadChange);
   document.addEventListener('keydown', onDocumentKeydown);
-  form.addEventListener('submit', sendForm);
   addValidatorPristine();
 };
 
-export {renderForm};
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
+const setOnFormSubmit = (cb) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if(isValid){
+      blockSubmitButton();
+      await cb(new FormData(form));
+      unblockSubmitButton();
+    }
+  });
+};
+
+export {renderForm, setOnFormSubmit, hideModal};
 
