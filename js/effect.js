@@ -132,8 +132,8 @@ const removeEventsEffects = () => {
   btnsRadio.removeEventListener('change', changeEffectPreview);
   if(!sliderContainer.classList.contains('hidden')){
     hideSlider();
-    sliderElement.noUiSlider.destroy();
   }
+  sliderElement.noUiSlider.destroy();
 };
 
 export {addEventsEffects, removeEventsEffects};
