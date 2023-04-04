@@ -29,10 +29,7 @@ const pristine = new Pristine(form,{
   errorTextClass: 'img-upload__field-wrapper__error'
 });
 
-const isValidTag = (tags) => {
-  console.log(tags.every((tag) => VALID_SYMBOLS.test(tag)));
-  return tags.every((tag) => VALID_SYMBOLS.test(tag));
-};
+const isValidTag = (tags) => tags.every((tag) => VALID_SYMBOLS.test(tag));
 
 const hasValidCount = (tags) => tags.length <= MAX_COUNT_HASHTAGS;
 
@@ -44,8 +41,8 @@ const hasUniqueTags = (tags) => {
 const validateTags = (value) => {
   const tags = value
     .trim()
-    .split(/\s+/);
-  // console.log(hasValidCount(tags) && hasUniqueTags(tags) && isValidTag(tags));
+    .split(/\s+/)
+    .filter((tag) => tag.length);
   return hasValidCount(tags) && hasUniqueTags(tags) && isValidTag(tags);
 };
 
