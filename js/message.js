@@ -5,11 +5,12 @@ const messageError = document.querySelector('#error').content;
 const body = document.body;
 
 const removeElement = (evt) => {
-  if(!evt.target.closest('section.success, section.error')){
+  const section = evt.target.closest('section.success, section.error');
+  if(!section){
     return;
   }
   if(evt.target.nodeName === 'SECTION' || evt.target.nodeName === 'BUTTON' || isEscapeKey(evt)){
-    evt.target.closest('section').remove();
+    section.remove();
     document.removeEventListener('click', removeElement);
     document.removeEventListener('keydown',removeElement);
   }
