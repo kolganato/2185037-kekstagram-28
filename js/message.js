@@ -4,38 +4,27 @@ const messageSuccess = document.querySelector('#success').content;
 const messageError = document.querySelector('#error').content;
 const body = document.body;
 
-const removeSuccessEscape = (evt) => {
-  if(isEscapeKey(evt)){
-    document.querySelector('section.success').remove();
-  }
-  document.removeEventListener('keydown',removeSuccessEscape);
-};
-
-const removeErrorEscape = (evt) => {
-  if(isEscapeKey(evt)){
-    document.querySelector('section.error').remove();
-  }
-  document.removeEventListener('keydown',removeErrorEscape);
-};
-
 const removeElement = (evt) => {
-  if(evt.target.nodeName === 'SECTION' || evt.target.nodeName === 'BUTTON'){
+  if(!evt.target.closest('section.success, section.error')){
+    return;
+  }
+  if(evt.target.nodeName === 'SECTION' || evt.target.nodeName === 'BUTTON' || isEscapeKey(evt)){
     evt.target.closest('section').remove();
     document.removeEventListener('click', removeElement);
-    document.removeEventListener('keydown',removeSuccessEscape);
+    document.removeEventListener('keydown',removeElement);
   }
 };
 
 const showSuccessMessage = () => {
   body.append(messageSuccess.cloneNode(true));
   document.addEventListener('click', removeElement);
-  document.addEventListener('keydown',removeSuccessEscape);
+  document.addEventListener('keydown',removeElement);
 };
 
 const showErrorMessage = () => {
   body.append(messageError.cloneNode(true));
   document.addEventListener('click', removeElement);
-  document.addEventListener('keydown', removeErrorEscape);
+  document.addEventListener('keydown', removeElement);
 };
 
 export { showSuccessMessage, showErrorMessage };
