@@ -83,7 +83,7 @@ const onDocumentKeydown = (evt) => {
 
 const onInputUploadChange = () => {
   showModal();
-
+  inputUpload.blur();
   closeBtn.addEventListener('click', hideModal);
 };
 
