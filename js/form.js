@@ -6,6 +6,11 @@ const TAG_TEXT_ERROR = 'Неправильно заполнены хэштеги
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_COUNT_HASHTAGS = 5;
 
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикую...'
+};
+
 const section = document.querySelector('.img-upload'),
   form = section.querySelector('form.img-upload__form'),
   inputUpload = form.querySelector('#upload-file'),
@@ -13,6 +18,7 @@ const section = document.querySelector('.img-upload'),
   closeBtn = section.querySelector('#upload-cancel'),
   comment = form.querySelector('.text__description'),
   hashtags = form.querySelector('.text__hashtags'),
+  submitButton = form.querySelector('#upload-submit'),
   body = document.body;
 
 const isTextFieldFocused = () => document.activeElement === hashtags || document.activeElement === comment;
@@ -35,8 +41,8 @@ const hasUniqueTags = (tags) => {
 const validateTags = (value) => {
   const tags = value
     .trim()
-    .split(/\s+/);
-
+    .split(/\s+/)
+    .filter((tag) => tag.length);
   return hasValidCount(tags) && hasUniqueTags(tags) && isValidTag(tags);
 };
 
@@ -77,23 +83,38 @@ const onDocumentKeydown = (evt) => {
 
 const onInputUploadChange = () => {
   showModal();
-
+  inputUpload.blur();
   closeBtn.addEventListener('click', hideModal);
-};
-
-
-const sendForm = (evt) => {
-  evt.preventDefault();
-
-  pristine.validate();
 };
 
 const renderForm = () => {
   inputUpload.addEventListener('change', onInputUploadChange);
   document.addEventListener('keydown', onDocumentKeydown);
-  form.addEventListener('submit', sendForm);
   addValidatorPristine();
 };
 
-export {renderForm};
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
+const setOnFormSubmit = (cb) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if(isValid){
+      blockSubmitButton();
+      await cb(new FormData(form));
+      unblockSubmitButton();
+    }
+  });
+};
+
+export {renderForm, setOnFormSubmit, hideModal};
 
