@@ -10,18 +10,23 @@ const FilterMethods = {
 
 const filters = document.querySelector('.img-filters');
 
-const onClickFilter = debounce((evt) => {
+const changeFilter = debounce((elem) => {
+  const filter = elem.id.split('-')[1];
+  const filterMethod = Object.keys(FilterMethods).filter((method) => filter === method);
+  const getMethod = FilterMethods[filterMethod];
+  const pictures = getMethod(FilterMethods.pictures);
+  renderThumbnails(pictures);
+});
+
+const onClickFilter = (evt) => {
   if(evt.target.classList.contains('img-filters__button')){
-    const isFilter = evt.target.id.startsWith('filter-');
-    if(isFilter){
-      const filter = evt.target.id.split('-')[1];
-      const filterMethod = Object.keys(FilterMethods).filter((method) => filter === method);
-      const getMethod = FilterMethods[filterMethod];
-      const pictures = getMethod(FilterMethods.pictures);
-      renderThumbnails(pictures);
+    filters.querySelector('.img-filters__button--active').classList.remove('img-filters__button--active');
+    evt.target.classList.toggle('img-filters__button--active');
+    if(evt.target.id.startsWith('filter-')){
+      changeFilter(evt.target);
     }
   }
-});
+};
 
 const showFilters = (data) => {
   FilterMethods.pictures = data;
