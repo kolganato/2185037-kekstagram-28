@@ -1,6 +1,7 @@
 import {isEscapeKey} from './util.js';
 import {addEventsScale, removeEventsScale} from './scale.js';
 import {addEventsEffects, removeEventsEffects} from './effect.js';
+import {addFileToPreview} from './file-upload.js';
 
 const TAG_TEXT_ERROR = 'Неправильно заполнены хэштеги';
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -83,6 +84,7 @@ const onDocumentKeydown = (evt) => {
 
 const onInputUploadChange = () => {
   showModal();
+  addFileToPreview();
   inputUpload.blur();
   closeBtn.addEventListener('click', hideModal);
 };
