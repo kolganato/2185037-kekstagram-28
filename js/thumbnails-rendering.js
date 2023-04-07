@@ -4,6 +4,7 @@ const pictureTemplate = document.querySelector('#picture')
 const picturesList = document.querySelector('.pictures');
 
 const renderThumbnails = (photosData) => {
+  picturesList.querySelectorAll('.picture').forEach((elem) => elem.remove());
   const picturesListFragment = document.createDocumentFragment();
   photosData.forEach(({url, likes, comments, description, id}) => {
     const photoElement = pictureTemplate.cloneNode(true);
