@@ -5,8 +5,8 @@ const messageError = document.querySelector('#error').content;
 const body = document.body;
 
 const removeElement = (evt) => {
-  const section = evt.target.closest('section.success, section.error');
-  if(!section){
+  const section = document.querySelector('section.success, section.error');
+  if(!section || (!isEscapeKey(evt) && evt.key === undefined)){
     return;
   }
   if(evt.target.nodeName === 'SECTION' || evt.target.nodeName === 'BUTTON' || isEscapeKey(evt)){

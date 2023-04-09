@@ -1,7 +1,7 @@
 import { getData, sendData } from './api.js';
 import { showAlert } from './util.js';
 import { renderGallery } from './render-gallery.js';
-import { renderForm, setOnFormSubmit, hideModal } from './form.js';
+import { renderForm, setOnFormSubmit, onClickCloseBtn } from './form.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 import { showFilters } from './filters.js';
 
@@ -9,7 +9,7 @@ import { showFilters } from './filters.js';
 setOnFormSubmit(async (data) => {
   try {
     await sendData(data);
-    hideModal();
+    onClickCloseBtn();
     showSuccessMessage();
   } catch (error) {
     showErrorMessage();
