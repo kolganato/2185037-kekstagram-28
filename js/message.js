@@ -6,7 +6,7 @@ const body = document.body;
 
 const removeElement = (evt) => {
   const section = document.querySelector('section.success, section.error');
-  if(!section || (!isEscapeKey(evt) && evt.key === undefined)){
+  if(!section){
     return;
   }
   if(evt.target.nodeName === 'SECTION' || evt.target.nodeName === 'BUTTON' || isEscapeKey(evt)){
