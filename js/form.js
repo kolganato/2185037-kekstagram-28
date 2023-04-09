@@ -24,6 +24,8 @@ const section = document.querySelector('.img-upload'),
 
 const isTextFieldFocused = () => document.activeElement === hashtags || document.activeElement === comment;
 
+const isMessageModal = () => document.querySelector('section.success, section.error') === null;
+
 const pristine = new Pristine(form,{
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -73,7 +75,7 @@ const showModal = () => {
 };
 
 const onDocumentKeydownShownForm = (evt) => {
-  if(!isTextFieldFocused()){
+  if(!isTextFieldFocused() && isMessageModal()){
     onDocumentKeydown(evt, hideModal);
     document.removeEventListener('keydown', onDocumentKeydownShownForm);
   }
