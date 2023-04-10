@@ -1,4 +1,4 @@
-import {isEscapeKey} from './util.js';
+import {onDocumentKeydown} from './util.js';
 import {renderComments, removeEventsComments} from './comments.js';
 
 const bigPictureSection = document.querySelector('.big-picture');
@@ -6,13 +6,6 @@ const bigPictureImg = bigPictureSection.querySelector('.big-picture__img img');
 const bigPictureSocial = bigPictureSection.querySelector('.big-picture__social');
 const bigPictureCaption = bigPictureSection.querySelector('.social__caption');
 const bigPictureClose = bigPictureSection.querySelector('.big-picture__cancel');
-
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeBigPictureModal();
-  }
-};
 
 const renderBigPicture = (picture) => {
   document.body.classList.add('modal-open');
@@ -22,20 +15,33 @@ const renderBigPicture = (picture) => {
   renderComments(picture);
 };
 
-function openBigPictureModal(picture){
-  bigPictureSection.classList.remove('hidden');
-  renderBigPicture(picture);
-  bigPictureClose.addEventListener('click', closeBigPictureModal);
-  document.addEventListener('keydown',onDocumentKeydown);
-}
-
-function closeBigPictureModal(){
+const closeBigPictureModal = () => {
   document.body.classList.remove('modal-open');
   bigPictureSection.classList.add('hidden');
-  document.removeEventListener('keydown',onDocumentKeydown);
   removeEventsComments();
-}
+};
 
-export {openBigPictureModal};
+const openBigPictureModal = (picture) => {
+  bigPictureSection.classList.remove('hidden');
+  renderBigPicture(picture);
+};
+
+const onDocumentKeydownShownModal = (evt) => {
+  onDocumentKeydown(evt, closeBigPictureModal);
+  document.removeEventListener('keydown', onDocumentKeydownShownModal);
+};
+
+const onClickCloseBtn = () => {
+  document.removeEventListener('keydown', onDocumentKeydownShownModal);
+  closeBigPictureModal();
+};
+
+const onClickPicture = (picture) => {
+  openBigPictureModal(picture);
+  document.addEventListener('keydown', onDocumentKeydownShownModal);
+  bigPictureClose.addEventListener('click', onClickCloseBtn);
+};
+
+export {onClickPicture};
 
 

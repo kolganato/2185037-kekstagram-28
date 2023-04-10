@@ -1,4 +1,4 @@
-import {isEscapeKey} from './util.js';
+import {onDocumentKeydown} from './util.js';
 import {addEventsScale, removeEventsScale} from './scale.js';
 import {addEventsEffects, removeEventsEffects} from './effect.js';
 import {addFileToPreview} from './file-upload.js';
@@ -16,13 +16,15 @@ const section = document.querySelector('.img-upload'),
   form = section.querySelector('form.img-upload__form'),
   inputUpload = form.querySelector('#upload-file'),
   overlay = section.querySelector('.img-upload__overlay'),
-  closeBtn = section.querySelector('#upload-cancel'),
+  btnClose = section.querySelector('#upload-cancel'),
   comment = form.querySelector('.text__description'),
   hashtags = form.querySelector('.text__hashtags'),
   submitButton = form.querySelector('#upload-submit'),
   body = document.body;
 
 const isTextFieldFocused = () => document.activeElement === hashtags || document.activeElement === comment;
+
+const isMessageModal = () => document.querySelector('section.success, section.error') === null;
 
 const pristine = new Pristine(form,{
   classTo: 'img-upload__field-wrapper',
@@ -55,43 +57,45 @@ const addValidatorPristine = () => {
   );
 };
 
-const showModal = () => {
-  overlay.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown',isEscapeKey);
-  addEventsScale();
-  addEventsEffects();
-};
-
 const hideModal = () => {
   form.reset();
   pristine.reset();
-
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
-  document.removeEventListener('keydown',isEscapeKey);
-  closeBtn.removeEventListener('click', hideModal);
+  btnClose.removeEventListener('click', hideModal);
   removeEventsScale();
   removeEventsEffects();
 };
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt) && !isTextFieldFocused()) {
-    evt.preventDefault();
-    hideModal();
+const showModal = () => {
+  overlay.classList.remove('hidden');
+  body.classList.add('modal-open');
+  addEventsScale();
+  addEventsEffects();
+};
+
+const onDocumentKeydownShownForm = (evt) => {
+  if(!isTextFieldFocused() && isMessageModal()){
+    onDocumentKeydown(evt, hideModal);
+    document.removeEventListener('keydown', onDocumentKeydownShownForm);
   }
+};
+
+const onClickCloseBtn = () => {
+  hideModal();
+  document.removeEventListener('keydown', onDocumentKeydownShownForm);
 };
 
 const onInputUploadChange = () => {
   showModal();
   addFileToPreview();
   inputUpload.blur();
-  closeBtn.addEventListener('click', hideModal);
+  btnClose.addEventListener('click', onClickCloseBtn);
+  document.addEventListener('keydown', onDocumentKeydownShownForm);
 };
 
 const renderForm = () => {
   inputUpload.addEventListener('change', onInputUploadChange);
-  document.addEventListener('keydown', onDocumentKeydown);
   addValidatorPristine();
 };
 
@@ -118,5 +122,5 @@ const setOnFormSubmit = (cb) => {
   });
 };
 
-export {renderForm, setOnFormSubmit, hideModal};
+export {renderForm, setOnFormSubmit, onClickCloseBtn};
 

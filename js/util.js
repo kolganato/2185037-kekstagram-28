@@ -25,6 +25,13 @@ const showAlert = (message) => {
 const isEscapeKey = (evt) => evt.key === 'Escape';
 const isEnterKey = (evt) => evt.key === 'Enter';
 
+const onDocumentKeydown = (evt, cb) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    cb();
+  }
+};
+
 const debounce = (cb, timeoutDelay = TIMEOUT_DELAY) => {
   let timeoutId;
   return (...rest) => {
@@ -41,4 +48,4 @@ const shuffleArray = (array) => {
   return array;
 };
 
-export { isEscapeKey, isEnterKey, showAlert, debounce, shuffleArray };
+export { isEscapeKey, isEnterKey, showAlert, debounce, shuffleArray, onDocumentKeydown };

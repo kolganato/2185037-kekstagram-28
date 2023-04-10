@@ -5,7 +5,7 @@ const messageError = document.querySelector('#error').content;
 const body = document.body;
 
 const removeElement = (evt) => {
-  const section = evt.target.closest('section.success, section.error');
+  const section = document.querySelector('section.success, section.error');
   if(!section){
     return;
   }
