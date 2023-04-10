@@ -8,10 +8,10 @@ const commentsList = social.querySelector('.social__comments');
 const commentsLoader = social.querySelector('.comments-loader');
 
 const createCommentElement = (commentData) => {
-  const elem = document.createElement('li');
+  const elementComment = document.createElement('li');
   const img = document.createElement('img');
   const text = document.createElement('p');
-  elem.classList.add('social__comment');
+  elementComment.classList.add('social__comment');
   img.classList.add('social__picture');
   img.src = commentData.avatar;
   img.dataset.id = commentData.id;
@@ -20,9 +20,9 @@ const createCommentElement = (commentData) => {
   img.height = 35;
   text.classList.add('social__text');
   text.innerText = commentData.message;
-  elem.prepend(img);
-  elem.append(text);
-  return elem;
+  elementComment.prepend(img);
+  elementComment.append(text);
+  return elementComment;
 };
 
 const showComments = () => {

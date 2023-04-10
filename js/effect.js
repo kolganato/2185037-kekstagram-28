@@ -43,11 +43,12 @@ const EFFECTS = {
   }
 };
 
-const btnsRadio = document.querySelector('.effects__list');
-const previewElement = document.querySelector('.img-upload__preview img');
-const sliderElement = document.querySelector('.effect-level__slider');
-const sliderElementValue = document.querySelector('.effect-level__value');
-const sliderContainer = document.querySelector('.img-upload__effect-level');
+const form = document.querySelector('.img-upload__form');
+const btnsRadio = form.querySelector('.effects__list');
+const previewElement = form.querySelector('.img-upload__preview img');
+const sliderElement = form.querySelector('.effect-level__slider');
+const sliderElementValue = form.querySelector('.effect-level__value');
+const sliderContainer = form.querySelector('.img-upload__effect-level');
 
 const resetEffects = () => {
   sliderElementValue.value = EFFECTS.none.max;
